@@ -1,37 +1,50 @@
-import React, {useEffect, useState} from 'react'
-import fetchListItems from '../api/index'
-import '../App.css';
+import React, { useEffect, useState } from "react";
+import ListItem from "./ListItem";
+import ErrorMessage from "./ErrorMessage";
+import Loader from "./Loader";
+import fetchListItems from "../api/index";
+import "../styles/App.css";
 
 function App() {
-
-  const [listItems, setListItems] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-
+  // States vital for the app
+  const [listItems, setListItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchList  = async () => {
+    const fetchList = async () => {
+      setLoading(true);
       try {
-        const response = await fetchListItems.get()
-        const data = await response.data
-        setListItems(data)
+        const response = await fetchListItems.get();
+        const data = await response.data;
+        setListItems(sortAndFormatData(data));
       } catch (e) {
-        setError(e.message)
+        setError(e.message);
       }
-      
-    }
-    fetchList()
-  },[])
+      setLoading(false);
+    };
+    fetchList();
+  }, []);
 
+  // Helper Functions
+  const sortAndFormatData = (data) => {
+    return data
+      .filter((listItem) => (listItem.name ? listItem : null))
+      .sort((a, b) => a.listId - b.listId || a.id - b.id);
+  };
 
   const displayListItems = () => {
-    
-  }
+    return listItems.map((listItem) => (
+      <ListItem key={listItem.id} listItem={listItem} />
+    ));
+  };
 
+  // Conditional rendering
 
   return (
-    <div className="App">
-     
+    <div className="list-container">
+      {loading && <Loader />}
+      {error ? <ErrorMessage error={error} /> : displayListItems()}
     </div>
   );
 }

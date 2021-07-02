@@ -1,10 +1,7 @@
-import React from 'react'
+import React from "react";
 
+const ErrorMessage = ({ error }) => {
+  return <div className="error-handler-container">{error}</div>;
+};
 
-const ErrorMessage = () => {
-    return (
-        <>ErorrMessageComponent</>
-    )
-}
-
-export default ErrorMessage
+export default ErrorMessage;

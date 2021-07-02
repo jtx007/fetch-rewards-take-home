@@ -1,10 +1,13 @@
-import React from 'react'
+import React from "react";
 
+const ListItem = ({ listItem }) => {
+  const { name, listId } = listItem;
+  return (
+    <div className="list-item-card">
+      <h2 className="list-id">{listId}</h2>
+      <span className="name">{name}</span>
+    </div>
+  );
+};
 
-const ListItem = () => {
-    return (
-        <>ListItem</>
-    )
-}
-
-export default ListItem
+export default ListItem;
