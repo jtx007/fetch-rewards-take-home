@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ListItem from "./ListItem";
+import ListContainer from "./ListContainer";
 import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loader";
 import fetchListItems from "../api/index";
@@ -33,18 +33,42 @@ function App() {
       .sort((a, b) => a.listId - b.listId || a.id - b.id);
   };
 
-  const displayListItems = () => {
-    return listItems.map((listItem) => (
-      <ListItem key={listItem.id} listItem={listItem} />
-    ));
+  const displayListContainers = (data) => {
+    let listHash = {};
+    // new data structure could also be used for Search/Filter functionality
+    data.forEach((listItem) => {
+      const { listId, id, name } = listItem;
+      if (listHash[listId]) {
+        listHash[listId].push({
+          id,
+          name,
+          listId,
+        });
+      } else {
+        listHash[listId] = [{ id, name, listId }];
+      }
+    });
+    return Object.keys(listHash).map((listId) => {
+      return (
+        <ListContainer
+          key={listId}
+          listId={listId}
+          listItems={listHash[listId]}
+        />
+      );
+    });
   };
 
   // Conditional rendering
 
   return (
-    <div className="list-container">
+    <div data-testid="list" className="list">
       {loading && <Loader />}
-      {error ? <ErrorMessage error={error} /> : displayListItems()}
+      {error ? (
+        <ErrorMessage error={error} />
+      ) : (
+        displayListContainers(listItems)
+      )}
     </div>
   );
 }

@@ -1,12 +1,50 @@
 /* List Container and List Items */
-.list-container {
+.list {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: 0 auto;
-  border: 1px solid #7f5af0;
+
   padding: 10px 0 10px 0;
+}
+
+.list-container {
+  background-color: #94a1b2;
+  flex: 0 0 15%;
+  padding: 20px;
+  color: white;
+  border: 5px solid #7f5af0;
+}
+
+.primary-btn {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: #2cb67d;
+  color: white;
+}
+
+.primary-btn:hover {
+  cursor: pointer;
+  background-color: #218159;
+}
+
+.danger-btn {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-family: sans-serif;
+  background-color: #b6382c;
+  color: white;
+}
+
+.danger-btn:hover {
+  cursor: pointer;
+  background-color: #7e0606;
 }
 
 .list-item-card {
